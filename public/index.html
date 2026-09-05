@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EagleEye Proxy | Security Traffic Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🦅</span>
+                <span class="logo-text">EagleEye</span>
+            </div>
+            <nav>
+                <button class="nav-item active" id="btn-dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="nav-item" id="btn-intercept">
+                    <span class="icon">🛡️</span> Intercept
+                </button>
+                <button class="nav-item" id="btn-settings">
+                    <span class="icon">⚙️</span> Settings
+                </button>
+            </nav>
+            <div class="status-card">
+                <div class="status-indicator online"></div>
+                <div class="status-info">
+                    <span class="status-label">Proxy Status</span>
+                    <span class="status-value">Listening on :8080</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-title">
+                    <h1>Traffic Analyzer</h1>
+                    <p>Real-time security monitoring and request interception</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="clear-logs">Clear Logs</button>
+                    <div class="badge badge-pulse">Live Feed</div>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-icon">📥</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Total Requests</span>
+                        <span class="stat-value" id="total-req">0</span>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <span class="stat-icon">⚠️</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Detected Issues</span>
+                        <span class="stat-value" id="total-issues">0</span>
+                    </div>
+                </div>
+                <div class="stat-card critical">
+                    <span class="stat-icon">🚫</span>
+                    <div class="stat-data">
+                        <span class="stat-label">High Priority</span>
+                        <span class="stat-value" id="total-critical">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="traffic-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Live Traffic</h2>
+                        <div class="search-box">
+                            <input type="text" placeholder="Filter requests..." id="filter-input">
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="traffic-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>URL</th>
+                                    <th>Status</th>
+                                    <th>Issues</th>
+                                    <th>Time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="traffic-body">
+                                <!-- Logs will appear here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content glass">
+            <span class="close-modal">&times;</span>
+            <div id="modal-details-body">
+                <!-- Details injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
