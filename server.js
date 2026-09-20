@@ -545,10 +545,24 @@ function handleProxyRequest(req, res, isSsl = false) {
     req.on("end", () => {
         const bodyBuffer = Buffer.concat(bodyChunks);
         const host = req.headers.host || "localhost";
+
+        // Normalize absolute URL from HTTP proxy requests (e.g. GET http://domain.com/path -> /path)
+        let targetPath = req.url;
+        if (req.url && (req.url.startsWith("http://") || req.url.startsWith("https://"))) {
+            try {
+                const parsedUrl = new URL(req.url);
+                targetPath = (parsedUrl.pathname || "/") + (parsedUrl.search || "");
+            } catch (e) {
+                targetPath = req.url.replace(/^https?:\/\/[^\/]+/, '') || "/";
+            }
+        }
+        req.url = targetPath;
+
         const fullUrl = (isSsl ? "https://" : "http://") + host + req.url;
 
         // Clean headers for outgoing traffic
         delete req.headers["proxy-connection"];
+        delete req.headers["proxy-authorization"];
 
         // Filter out background browser updates, telemetry, captive portal checks
         if (shouldIgnoreRequest(host, req.url)) {
