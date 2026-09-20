@@ -1,8 +1,11 @@
 const OpenAI = require("openai");
 
+const apiKey = process.env.OPENAI_API_KEY || "dummy-key";
+const isOpenRouter = apiKey && apiKey.startsWith("sk-or-");
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: apiKey,
+  baseURL: isOpenRouter ? "https://openrouter.ai/api/v1" : undefined,
   defaultHeaders: {
     "HTTP-Referer": "http://localhost:3000",
     "X-Title": "EagleEye Proxy",
