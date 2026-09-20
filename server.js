@@ -363,7 +363,7 @@ apiApp.use("/api/ai", aiRoutes);
 const clientBuildPath = path.join(__dirname, 'client', 'build');
 if (fs.existsSync(clientBuildPath)) {
     apiApp.use(express.static(clientBuildPath));
-    apiApp.get('*', (req, res, next) => {
+    apiApp.use((req, res, next) => {
         if (req.path.startsWith('/api')) return next();
         res.sendFile(path.join(clientBuildPath, 'index.html'));
     });
