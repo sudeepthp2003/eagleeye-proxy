@@ -18,7 +18,7 @@ WORKDIR /app
 
 # Install production dependencies for backend
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy backend application source
 COPY . .
