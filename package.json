@@ -1,17 +1,15 @@
 {
   "name": "eagleeye-proxy",
   "version": "1.0.0",
-  "description": "EagleEye Security Proxy desktop application",
-  "main": "main.js",
+  "description": "EagleEye Security Proxy web application",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "server": "node server.js",
     "client": "cd client && npm start",
-    "dev": "npm run electron:dev",
-    "dev:web": "concurrently -k \"node server.js\" \"cd client && npm start\"",
-    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run client\" \"wait-on http-get://localhost:3000 && cross-env NODE_ENV=development electron .\"",
-    "build:client": "cd client && npm run build",
-    "package:win": "npm run build:client && electron-builder --win",
-    "package:linux": "npm run build:client && electron-builder --linux deb AppImage"
+    "dev": "concurrently -k \"node server.js\" \"cd client && npm start\"",
+    "build": "cd client && npm run build",
+    "postinstall": "cd client && npm install"
   },
   "keywords": [],
   "author": "",
@@ -29,40 +27,6 @@
     "selfsigned": "^5.5.0"
   },
   "devDependencies": {
-    "concurrently": "^10.0.5",
-    "cross-env": "^10.1.0",
-    "electron": "^44.2.0",
-    "electron-builder": "^26.15.3",
-    "wait-on": "^9.1.0"
-  },
-  "build": {
-    "appId": "com.eagleeye.proxy",
-    "productName": "EagleEye Proxy",
-    "files": [
-      "main.js",
-      "server.js",
-      "config.js",
-      "routes/**/*",
-      "services/**/*",
-      "ca-cert.pem",
-      "ca-key.pem",
-      "client/build/**/*"
-    ],
-    "directories": {
-      "output": "dist"
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "portable"
-      ]
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "category": "Network;Security;"
-    }
+    "concurrently": "^10.0.5"
   }
 }

@@ -7,9 +7,9 @@ client/node_modules/
 .env.local
 .env.*.local
 
-# Build Outputs & Packaging
-dist/
+# Build Outputs
 build/
+dist/
 client/build/
 
 # Certificate Private Keys (Generated dynamically on boot)

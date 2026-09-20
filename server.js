@@ -359,12 +359,22 @@ apiApp.use((req, res, next) => {
 });
 apiApp.use("/api/ai", aiRoutes);
 
-// Catch-all for API to handle non-existent routes with JSON instead of HTML
-apiApp.use((req, res) => {
+// Serve static React production build if available
+const clientBuildPath = path.join(__dirname, 'client', 'build');
+if (fs.existsSync(clientBuildPath)) {
+    apiApp.use(express.static(clientBuildPath));
+    apiApp.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) return next();
+        res.sendFile(path.join(clientBuildPath, 'index.html'));
+    });
+}
+
+// Catch-all for unknown API routes
+apiApp.use('/api', (req, res) => {
     res.status(404).json({ 
         error: "Route Not Found", 
         path: req.originalUrl,
-        message: "You might be hitting the wrong port or the route is not registered." 
+        message: "API route is not registered." 
     });
 });
 
@@ -374,7 +384,8 @@ apiApp.use((err, req, res, next) => {
     res.status(500).json({ error: "Internal Server Error", details: err.message });
 });
 
-apiApp.listen(8081, () => { console.log("API Server on 8081"); });
+const API_PORT = process.env.PORT || 8081;
+apiApp.listen(API_PORT, "0.0.0.0", () => { console.log(`API & Web Server active on http://0.0.0.0:${API_PORT}`); });
 
 
 const { PassThrough } = require('stream');
